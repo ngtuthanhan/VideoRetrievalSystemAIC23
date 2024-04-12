@@ -57,8 +57,9 @@ with open('./data/keyframe_full.json') as file:
     video_list = json.load(file)
     
 clip_feature = np.load("./data/clip-feature_full.npy")
-hist_feature = np.load("./data/hist-feature.npy")
-print(hist_feature[:3])
+# hist_feature = np.load("./data/hist-feature.npy")
+hist_feature = np.random.randn(512, 3)
+# print(hist_feature[:3])
 
 # with open('./data/merge_3batch.json', 'r', encoding='utf-8') as obj:
 #     object_list = json.load(obj)

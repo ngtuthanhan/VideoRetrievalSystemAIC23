@@ -115,8 +115,8 @@ services:
   indexer:
     image: curlimages/curl:latest  # Using a Docker image with curl
     volumes:
-      - /mlcv1/WorkingSpace/Personal/tunglx/AIC23/VideoRetrieval/backend/data:/data
-      - /mlcv1/WorkingSpace/Personal/tunglx/AIC23/VideoRetrieval/backend:/mlcv1/WorkingSpace/Personal/tunglx/AIC23/VideoRetrieval/backend
+      - /mlcv1/WorkingSpace/Personal/thuongpt/AIC23/VideoRetrievalSystemAIC23/backend/data:/data
+      - /mlcv1/WorkingSpace/Personal/thuongpt/AIC23/VideoRetrievalSystemAIC23/backend:/mlcv1/WorkingSpace/Personal/thuongpt/AIC23/VideoRetrievalSystemAIC23/backend
       - ./init.sh:/init.sh  # Mount the initialization script
     command: ["/bin/sh", "/init.sh"]  # Run the initialization script   
     depends_on:

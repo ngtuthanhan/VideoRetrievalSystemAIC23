@@ -1,6 +1,6 @@
 #!/bin/bash
 sleep 100
-log_file="/mlcv1/WorkingSpace/Personal/tunglx/AIC23/VideoRetrieval/backend/uploaddata.log"
+# log_file="/mlcv1/WorkingSpace/Personal/tunglx/AIC23/VideoRetrieval/backend/uploaddata.log"
 
 curl -X PUT "http://192.168.20.164:9200/test" -H "Content-Type: application/json" -d '{
     "mappings": {
@@ -25,13 +25,13 @@ batch_size=6000
 for i in $(seq 0 6000 324001)
 do
   # Index the current batch
-  batch_file="/mlcv1/WorkingSpace/Personal/tunglx/AIC23/VideoRetrieval/backend/data/keyframe_split/bulk_keyframe_batch_${i}.json"
+  batch_file="/mlcv1/WorkingSpace/Personal/thuongpt/AIC23/VideoRetrievalSystemAIC23/backend/data/keyframe_split/bulk_keyframe_batch_${i}.json"
   
   curl_output=$(curl -X POST "http://192.168.20.164:9200/test/_bulk" -H "Content-Type: application/json" --data-binary "@$batch_file")
 
   # Log the result
-  echo "Result of indexing batch $i:" >> "$log_file"
-  echo "$curl_output" >> "$log_file"
+#   echo "Result of indexing batch $i:" >> "$log_file"
+#   echo "$curl_output" >> "$log_file"
 done
 
 echo "Finished." >> "$log_file"

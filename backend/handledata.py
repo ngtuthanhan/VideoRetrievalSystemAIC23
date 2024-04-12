@@ -8,6 +8,8 @@ import numpy as np
 if not os.path.exists('./data'):
     os.makedirs('./data')
 
+if not os.path.exists('./data/keyframe_split'):
+    os.makedirs('./data/keyframe_split') 
 root_data = "/mlcv1/Datasets/HCM_AIChallenge/HCM_AIC_2023"
 
 # all_keyframes = glob.glob(os.path.join(root_data,'**','keyframes', '**', '*.jpg'),recursive=True)
@@ -31,9 +33,9 @@ for map_keyframes in tqdm(all_map_keyframes):
         video_feature_file = map_keyframes.replace('map-keyframes', 'clip-features-32').replace('.csv','.npy')
     if '/mlcv1/Datasets/HCM_AIChallenge/HCM_AIC_2023/data-batch-2/clip-features-32/L20_V010.npy' == video_feature_file:
         continue
-    # clip_feature = np.load(video_feature_file)
+    clip_feature = np.load(video_feature_file)
 
-    # clip_features = np.concatenate((clip_features,clip_feature),axis = 0)
+    clip_features = np.concatenate((clip_features,clip_feature),axis = 0)
 
     metadata_path = map_keyframes.replace('map-keyframes', 'metadata').replace('.csv', '.json')
     with open(metadata_path, "r") as f:
@@ -57,29 +59,30 @@ for map_keyframes in tqdm(all_map_keyframes):
         asr_path = '/mlcv1/WorkingSpace/Personal/tunglx/AIC23/VideoRetrieval/backend/data/asr_full/' +  keyframe + '.txt'
         ocr_path = '/mlcv1/WorkingSpace/Personal/thuongpt/OCR/Batch_' + batch_no + '/' + video + '/' + keyframe_position_str + '.txt' 
         
-        try:
-            with open(asr_path, 'r') as f:
-                asr_sentence =f.read()
-        except Exception as e:
-            print(f"Error reading ASR file {asr_path}: {e}")
-            asr_sentence = ""  # Handle the error by appending an empty string
-
-        try:
-            with open(ocr_path, 'r') as f:
-                ocr_sentence = f.read()
-        except Exception as e:
-            print(f"Error reading OCR file {ocr_path}: {e}")
-            ocr_sentence = "" # Handle the error by appending an empty string
-        hist_feature = np.load(f'./data/color_vector_full/{keyframe}.npy').reshape((1, -1))
-        hist_feature /= np.linalg.norm(hist_feature, axis=-1, keepdims=True)
-        hist_features = np.concatenate((hist_features,hist_feature),axis = 0)
-        try:
-            hist_feature = np.load(f'./data/color_vector_full/{keyframe}.npy').reshape((1, -1))
-            # Optionally, normalize the hist_feature
-            # hist_feature /= np.linalg.norm(hist_feature, axis=-1, keepdims=True)
-        except Exception as e:
-            print(f"Error loading or reshaping hist_feature for keyframe {keyframe}: {e}")
-            hist_feature = np.zeros((1, 512))  # Handle the error by assigning a default value
+        # try:
+        #     with open(asr_path, 'r') as f:
+        #         asr_sentence =f.read()
+        # except Exception as e:
+        #     print(f"Error reading ASR file {asr_path}: {e}")
+        #     asr_sentence = ""  # Handle the error by appending an empty string
+        asr_sentence = ""
+        # try:
+        #     with open(ocr_path, 'r') as f:
+        #         ocr_sentence = f.read()
+        # except Exception as e:
+        #     print(f"Error reading OCR file {ocr_path}: {e}")
+        #     ocr_sentence = "" # Handle the error by appending an empty string
+        ocr_sentence = ""
+        # hist_feature = np.load(f'./data/color_vector_full/{keyframe}.npy').reshape((1, -1))
+        # hist_feature /= np.linalg.norm(hist_feature, axis=-1, keepdims=True)
+        # hist_features = np.concatenate((hist_features,hist_feature),axis = 0)
+        # try:
+        #     hist_feature = np.load(f'./data/color_vector_full/{keyframe}.npy').reshape((1, -1))
+        #     # Optionally, normalize the hist_feature
+        #     # hist_feature /= np.linalg.norm(hist_feature, axis=-1, keepdims=True)
+        # except Exception as e:
+        #     print(f"Error loading or reshaping hist_feature for keyframe {keyframe}: {e}")
+        #     hist_feature = np.zeros((1, 512))  # Handle the error by assigning a default value
 
         if path == '/mlcv1/Datasets/HCM_AIChallenge/HCM_AIC_2023/data-batch-1/keyframes/L01_V001/0003.jpg':
             keyframe_idx = 271
@@ -102,8 +105,8 @@ with open("./data/keyframe_full.json", "w") as outfile:
 with open('./data/clip-feature_full.npy','wb') as f:
     np.save(f, clip_features)
 
-with open('./data/hist-feature_full.npy','wb') as f:
-    np.save(f, hist_features)
+# with open('./data/hist-feature_full.npy','wb') as f:
+#     np.save(f, hist_features)
 
 
 with open("./data/keyframe_full.json", "r") as file:

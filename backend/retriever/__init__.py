@@ -2,6 +2,7 @@ import numpy as np
 from .utils.TIUday import Searcher, CLIPTextExtractor, CLIPImageExtractor
 
 def load_model(clip_features, hist_features):
+    print(clip_features.shape)
     CLIP_SEARCHER = Searcher(features=clip_features)
     HIST_SEARCHER = Searcher(features=hist_features,distance_measure = 'squared_l2')
     CLIP_TEXT = CLIPTextExtractor()
